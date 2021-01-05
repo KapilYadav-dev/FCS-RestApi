@@ -1,0 +1,26 @@
+{
+  "name": "fcs-restapi",
+  "version": "1.0.0",
+  "description": "Rest api to get all udemy paid courses and tutorials free, scrapped from https://freecoursesite.us/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KapilYadav-dev/FCS-RestApi.git"
+  },
+  "author": "mrkaydev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KapilYadav-dev/FCS-RestApi/issues"
+  },
+  "homepage": "https://github.com/KapilYadav-dev/FCS-RestApi#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6",
+    "promise": "^8.1.0",
+    "request": "^2.88.2"
+  }
+}
