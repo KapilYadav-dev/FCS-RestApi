@@ -11,8 +11,34 @@ app.get('/',(req,res)=>{
     res.send("Welcome")
 })
 //For all post
-app.get('/AllCourses/:pageNumber',(req,res)=>{
-    var url=baseurl+"category/all-courses/page/"+req.params.pageNumber
+app.get('/all-courses/:pageNumber',(req,res)=>{
+    GetCoursesList(req,res)
+})
+//For all post with categories
+app.get('/courses/:category/:pageNumber',(req,res)=>{
+    GetCoursesList(req,res)
+ })
+ 
+
+app.listen(port,()=>{
+    console.log("Server running on port "+port)
+})
+function empty() {
+    categoryList=[]
+    imglist=[]
+    titlelist=[]
+    urllist=[]
+    timeList=[]
+    viewsList=[]
+    shortDescList=[]
+    data=[]
+}
+
+function GetCoursesList(req,res){
+    var url 
+    if (req.params.category!=null)  url=baseurl+"category/all-courses/"+req.params.category+"/page/"+req.params.pageNumber
+    else  url=baseurl+"category/all-courses/page/"+req.params.pageNumber
+    console.log(url);
     request(url,async (error,response,html)=>{
         if(error) return error
         var $=cheerio.load(html)
@@ -54,18 +80,4 @@ app.get('/AllCourses/:pageNumber',(req,res)=>{
         else if(response.statusCode==404) res.status(404).json({"pageNumber":req.params.pageNumber,"error":"Page doesn't exist..."})
         empty()
     })
-})
-
-app.listen(port,()=>{
-    console.log("Server running on port "+port)
-})
-function empty() {
-    categoryList=[]
-    imglist=[]
-    titlelist=[]
-    urllist=[]
-    timeList=[]
-    viewsList=[]
-    shortDescList=[]
-    data=[]
 }
