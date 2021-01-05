@@ -2,6 +2,7 @@ const express = require('express')
 const app=express()
 var port=process.env.PORT||8080
 const GetCoursesList=require('../FCS-RestApi/GetCourseList')
+const GetParticularCourse=require('../FCS-RestApi/GetParticularCourse')
 app.get('/',(req,res)=>{
     res.send("Welcome")
 })
@@ -14,8 +15,8 @@ app.get('/courses/:category/:pageNumber',(req,res)=>{
     GetCoursesList.doWork(req,res)
  })
  //For a particular post
-app.get('/courses/:category/:pageNumber',(req,res)=>{
-   
+app.get('/get-course/*',(req,res)=>{
+   GetParticularCourse.doWork(req,res)
  })
 
 app.listen(port,()=>{

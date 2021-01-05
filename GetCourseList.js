@@ -2,7 +2,7 @@ const request = require('request')
 const cheerio = require('cheerio')
 var baseurl="https://freecoursesite.us/"
 var data=[]
-var image,category,title,time,views,shortdesc,url
+var image,category,title,time,views,shortdesc,weburl
 var titlelist=[],imglist=[],urllist=[],categoryList=[],timeList=[],viewsList=[],shortDescList=[]
 
 function doWork(req,res){
@@ -21,13 +21,13 @@ function doWork(req,res){
                 return $(this).text();
               }).get();
              title=a.find('h2').text()
-             url=a.find('h2 a').attr('href')
+             weburl=a.find('h2 a').attr('href')
              time=a.find('.updated').text()
              views=a.find('.herald-views').text()
              shortdesc=a.find('.entry-content p').text()
              titlelist[i]=title
              imglist[i]=image
-             urllist[i]=url
+             urllist[i]=weburl
              categoryList[i]=category
              timeList[i]=time
              viewsList[i]=views
@@ -37,18 +37,22 @@ function doWork(req,res){
         {
             var object={
                 "title": titlelist[i],
-                "url": urllist[i],
+                "pageUrl": urllist[i],
                 "category":categoryList[i],
                 "image":imglist[i],
-                "shortdesc":shortDescList[i],
-                "uploaded":timeList[i],
+                "shortDescription":shortDescList[i],
+                "uploadedAt":timeList[i],
                 "views":viewsList[i]
             }
             data.push(object)
         }
-        if(data!=null && data.length>0) res.status(200).json({"pageNumber":req.params.pageNumber,"data":data})
-        else if(response.statusCode==500) res.status(500).json({"pageNumber":req.params.pageNumber,"error":"Website is down..."})
-        else if(response.statusCode==404) res.status(404).json({"pageNumber":req.params.pageNumber,"error":"Page doesn't exist..."})
+        if(data!=null && data.length>0) 
+        {
+            if (req.params.category!=null) res.status(200).json({"category":req.params.category,"data":data})
+            else res.status(200).json({"pageNumber":req.params.pageNumber,"data":data})
+        }
+        else if(response.statusCode==500) res.status(500).json({"error":"Website is down..."})
+        else if(response.statusCode==404) res.status(404).json({"error":"Page doesn't exist..."})
         empty()
     })
 }
