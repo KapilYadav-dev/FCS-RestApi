@@ -4,7 +4,10 @@ var port=process.env.PORT||8080
 const GetCoursesList=require('../FCS-RestApi/GetCourseList')
 const GetParticularCourse=require('../FCS-RestApi/GetParticularCourse')
 app.get('/',(req,res)=>{
-    res.send("Welcome")
+    res.json({"get all courses list":"/all-courses/{pageNumber}",
+              "get courses by category":"/courses/{category}/{pageNumber}",
+              "get details of a single course":"/get-course/{url}"
+})
 })
 //For all post
 app.get('/all-courses/:pageNumber',(req,res)=>{
